@@ -1,8 +1,5 @@
-// screens/NewsScreen.tsx
-import React from "react";
+
 import { ScrollView, Text, StyleSheet, Linking } from "react-native";
-import { useApp } from "../state/AppProvider";
-import { MotiView } from "moti";
 import { Article } from "../types";
 import { NEWSAPI_KEY } from "../../env";
 

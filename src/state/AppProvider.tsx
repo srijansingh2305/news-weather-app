@@ -1,4 +1,4 @@
-// state/AppProvider.tsx
+
 import React, { createContext, useContext, useEffect, useReducer, useCallback } from "react";
 import { Platform } from "react-native";
 import { Unit, Article, WeatherCurrent, ForecastItem } from "../types";
@@ -23,7 +23,7 @@ type State = {
 const initialState: State = {
   unit: "metric",
   categories: [],
-  city: "Delhi", // ✅ default city
+  city: "Delhi", // 
   articles: [],
   loading: false,
 };
@@ -71,7 +71,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       let lon = 77.2090;
 
       if (state.city) {
-        // ✅ Fetch by city first
+    
         const city = encodeURIComponent(state.city);
         const res = await fetch(
           `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${state.unit}&appid=${OPENWEATHER_KEY}`
@@ -81,10 +81,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           lat = data.coord.lat;
           lon = data.coord.lon;
         } else {
-          console.warn(`⚠️ Could not find coords for city: ${state.city}, falling back to Delhi`);
+          console.warn(`Could not find coords for city: ${state.city}, falling back to Delhi`);
         }
       } else if (Platform.OS !== "web") {
-        // ✅ fallback to GPS
+        //fallback to GPS
         const { status } = await Location.requestForegroundPermissionsAsync();
         if (status === "granted") {
           const loc = await Location.getCurrentPositionAsync({});
@@ -97,14 +97,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
       dispatch({ type: "SET_LOCATION", location: { lat, lon } });
 
-      // ✅ Weather + forecast
+      // Weather + forecast
       const weather = await fetchCurrentWeather(lat, lon, state.unit);
       dispatch({ type: "SET_WEATHER", weather });
 
       const forecast = await fetch5DayForecast(lat, lon, state.unit);
       dispatch({ type: "SET_FORECAST", forecast });
 
-      // ✅ Weather-based news filtering
+      // Weather-based news filtering
       const tempC = state.unit === "imperial" ? (weather.temp - 32) * (5 / 9) : weather.temp;
       const kws = mapWeatherToKeywords(Number(tempC.toFixed(1)), weather.weatherMain);
       const query = keywordsToQuery(kws);
@@ -115,7 +115,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
       let articles = await fetchNewsByQuery(fullQuery);
 
-      // ✅ fallback if no news
+      // fallback if no news
       if (!articles || articles.length === 0) {
         console.warn("⚠️ No filtered news found → fallback to generic weather news");
         articles = await fetchNewsByQuery("weather");
