@@ -2,6 +2,7 @@
   "expo": {
     "name": "NewsWeatherApp",
     "slug": "NewsWeatherApp",
+    "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -24,6 +25,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "cf3f0505-d7d8-422e-82d7-b041dab5d5d6"
+      }
     }
   }
 }
